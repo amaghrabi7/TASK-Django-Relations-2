@@ -14,6 +14,11 @@ class Category(models.Model):
         return f"Category: {self.name}"
 
 class Item(models.Model):
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+        related_name="items",
+    )
     name = models.CharField(max_length=150)
     image = models.TextField()
     price = models.FloatField()
