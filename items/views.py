@@ -1,7 +1,8 @@
+from email import message
 from django.shortcuts import redirect, render
 
 from items.forms import ItemForm
-from .models import Item
+from .models import Item, Comment
 
 # Create your views here.
 def get_items(req):
@@ -14,8 +15,10 @@ def get_items(req):
                 "name": item.name,
                 "price": item.price,
                 "image": item.image,
-                "category": item.category,
-
+                "category": {
+                    "name": item.category.name,
+                    "image": item.category.image,
+                }
             }
         )
     context = {"items": _items}
@@ -23,13 +26,18 @@ def get_items(req):
 
 def get_item(req, item_id):
     item = Item.objects.get(id=item_id)
+    comments= item.comments.all()
+    _comments = []
+    for comment in comments:
+        _comments.append({"message": comment.message})
     context = {
                "item": { 
                     "id": item.id,
                     "name": item.name,
                     "price": item.price,
-                    "image": item.image
-                }
+                    "image": item.image,
+                }, 
+                "comments": _comments,
             }
     return render(req, "item_detail.html", context)
 

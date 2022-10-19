@@ -29,4 +29,13 @@ class Item(models.Model):
 
 
 class Comment(models.Model):
+    item = models.ForeignKey(
+        Item,
+        on_delete=models.CASCADE,
+        related_name="comments",
+        null=True,
+    )
     message = models.TextField()
+
+    def __str__(self):
+        return f"Comment: {self.message}"
