@@ -33,7 +33,6 @@ class Comment(models.Model):
         Item,
         on_delete=models.CASCADE,
         related_name="comments",
-        null=True,
     )
     message = models.TextField()
 
